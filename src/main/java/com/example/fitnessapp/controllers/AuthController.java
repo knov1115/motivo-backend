@@ -56,7 +56,8 @@ public class AuthController {
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
-        // generate token for new user
+        // generate token for new user – ask by **email** because our UserDetailsService
+        // implementation (see AppConfig) looks up by email, not username.
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
         String token = jwtService.generateToken(userDetails);
         AuthResponse authResponse = new AuthResponse(token, userDetails);

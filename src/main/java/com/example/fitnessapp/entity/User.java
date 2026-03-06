@@ -43,7 +43,7 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getUsername() {
+    public String getActualUsername() {
         return username;
     }
 
@@ -78,6 +78,11 @@ public class User implements UserDetails {
     }
 
     @Override
+    public String getUsername() {
+        return email; 
+    }
+
+    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
@@ -97,6 +102,6 @@ public class User implements UserDetails {
         return true;
     }
 
-    
+
 
 }

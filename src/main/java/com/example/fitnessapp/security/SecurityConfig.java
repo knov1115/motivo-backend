@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import com.example.fitnessapp.JWT.JwtAuthenticationFilter;
 
 
 @Configuration
@@ -15,34 +17,28 @@ import org.springframework.security.config.Customizer;
 public class SecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthenticationFilter jwtAuthFilter; // ADD THIS
 
-    public SecurityConfig(AuthenticationProvider authenticationProvider) {
+    // ADD filter to constructor
+    public SecurityConfig(AuthenticationProvider authenticationProvider, JwtAuthenticationFilter jwtAuthFilter) {
         this.authenticationProvider = authenticationProvider;
+        this.jwtAuthFilter = jwtAuthFilter;
     }
     
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-        // 1. Enable CORS and Disable CSRF
-        .cors(Customizer.withDefaults())
-        .csrf(csrf -> csrf.disable())
-        
-        // 2. Authorize Requests
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/**").permitAll()
-            .requestMatchers("/api/health").permitAll()
-            .requestMatchers("/error").permitAll()
-            .anyRequest().authenticated()
-        )
-        
-        // 3. Stateless Sessions
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        
-        // 4. Set the Authentication Provider
-        .authenticationProvider(authenticationProvider);
-        
-    return http.build();
-}
-
-
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .cors(Customizer.withDefaults())
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**", "/api/health", "/error").permitAll()
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authenticationProvider(authenticationProvider)
+            // ADD THIS LINE right before the return statement:
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            
+        return http.build();
+    }
 }
