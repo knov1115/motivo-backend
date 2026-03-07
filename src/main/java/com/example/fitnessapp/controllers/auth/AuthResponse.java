@@ -1,4 +1,4 @@
-package com.example.fitnessapp.controllers;
+package com.example.fitnessapp.controllers.auth;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

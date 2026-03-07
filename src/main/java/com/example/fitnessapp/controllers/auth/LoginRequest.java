@@ -1,4 +1,4 @@
-package com.example.fitnessapp.controllers;
+package com.example.fitnessapp.controllers.auth;
 
 public class LoginRequest {
     private String email;

@@ -1,4 +1,4 @@
-package com.example.fitnessapp.controllers;
+package com.example.fitnessapp.controllers.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.fitnessapp.JWT.JwtService;
 import com.example.fitnessapp.entity.User;
 import com.example.fitnessapp.repository.UserRepository;
-import com.example.fitnessapp.controllers.RegisterRequest;
-import com.example.fitnessapp.controllers.LoginRequest;
-import com.example.fitnessapp.controllers.AuthResponse;
 
 
 @RestController
@@ -56,8 +53,7 @@ public class AuthController {
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
-        // generate token for new user – ask by **email** because our UserDetailsService
-        // implementation (see AppConfig) looks up by email, not username.
+        // generate token for new user
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
         String token = jwtService.generateToken(userDetails);
         AuthResponse authResponse = new AuthResponse(token, userDetails);
