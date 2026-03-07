@@ -2,6 +2,7 @@ package com.example.fitnessapp.entity;
 
 import java.time.LocalDateTime;
 import java.time.LocalDate; 
+import java.math.BigDecimal;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,7 +21,7 @@ public class BodyWeightEntry {
     @Column(name = "date", nullable = false)
     private LocalDate date;
     @Column(name = "weight", nullable = false, precision = 5, scale = 2)
-    private Double weight;
+    private BigDecimal weight;
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -33,8 +34,8 @@ public class BodyWeightEntry {
     public void setUser(User user) { this.user = user; }
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
-    public Double getWeight() { return weight; }
-    public void setWeight(Double weight) { this.weight = weight; }
+    public BigDecimal getWeight() { return weight; }
+    public void setWeight(BigDecimal weight) { this.weight = weight; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

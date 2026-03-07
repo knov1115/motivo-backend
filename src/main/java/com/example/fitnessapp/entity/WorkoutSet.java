@@ -1,6 +1,8 @@
 package com.example.fitnessapp.entity;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,7 +26,7 @@ public class WorkoutSet {
     private Integer setIndex;
 
     @Column(name = "weight", nullable = false, precision = 6, scale = 2)
-    private Double weight = 0.0;
+    private BigDecimal weight;
 
     @Column(name = "reps", nullable = false)
     private Integer reps;
@@ -46,8 +48,8 @@ public class WorkoutSet {
     public void setExercise(Exercise exercise) { this.exercise = exercise; }
     public Integer getSetIndex() { return setIndex; }
     public void setSetIndex(Integer setIndex) { this.setIndex = setIndex; }
-    public Double getWeight() { return weight; }
-    public void setWeight(Double weight) { this.weight = weight; }
+    public BigDecimal getWeight() { return weight; }
+    public void setWeight(BigDecimal weight) { this.weight = weight; }
     public Integer getReps() { return reps; }
     public void setReps(Integer reps) { this.reps = reps; }
     public String getTag() { return tag; }
