@@ -31,6 +31,9 @@ public class WorkoutSet {
     @Column(name = "reps", nullable = false)
     private Integer reps;
 
+    @Column(name = "duration_seconds")
+    private Double durationSeconds;
+
     @Column(name = "tag", nullable = false, length = 20)
     private String tag;
 
@@ -52,6 +55,8 @@ public class WorkoutSet {
     public void setWeight(BigDecimal weight) { this.weight = weight; }
     public Integer getReps() { return reps; }
     public void setReps(Integer reps) { this.reps = reps; }
+    public Double getDurationSeconds() { return durationSeconds; }
+    public void setDurationSeconds(Double durationSeconds) { this.durationSeconds = durationSeconds; }
     public String getTag() { return tag; }
     public void setTag(String tag) { this.tag = tag; }
     public LocalDateTime getCreatedAt() { return createdAt; }

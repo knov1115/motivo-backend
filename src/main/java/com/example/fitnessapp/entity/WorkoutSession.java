@@ -26,6 +26,12 @@ public class WorkoutSession {
     @JoinColumn(name = "planned_workout_id")
     private PlannedWorkout plannedWorkout;
 
+    @Column(name = "duration_minutes")
+    private Integer durationMinutes;
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
@@ -49,6 +55,10 @@ public class WorkoutSession {
     public void setRoutine(WorkoutRoutine routine) { this.routine = routine; }
     public PlannedWorkout getPlannedWorkout() { return plannedWorkout; }
     public void setPlannedWorkout(PlannedWorkout plannedWorkout) { this.plannedWorkout = plannedWorkout; }
+    public Integer getDurationMinutes() { return durationMinutes; }
+    public void setDurationMinutes(Integer durationMinutes) { this.durationMinutes = durationMinutes; }
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
     public LocalDateTime getStartedAt() { return startedAt; }
