@@ -34,8 +34,8 @@ public class WorkoutRoutineService {
 
 
     @Transactional
-    public WorkoutRoutineDTO createRoutine(WorkoutRoutineDTO dto) {
-        User user = userRepository.findById(dto.getUserId())
+    public WorkoutRoutineDTO createRoutine(WorkoutRoutineDTO dto, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         WorkoutRoutine routine = new WorkoutRoutine();
@@ -87,6 +87,15 @@ public class WorkoutRoutineService {
 
     public List<WorkoutRoutineDTO> getRoutinesByUser(Long userId) {
         return routineRepository.findByUserId(userId)
+                .stream()
+                .map(routine -> getRoutineById(routine.getId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<WorkoutRoutineDTO> getMyRoutines(String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return routineRepository.findByUserId(user.getId())
                 .stream()
                 .map(routine -> getRoutineById(routine.getId()))
                 .collect(Collectors.toList());

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.fitnessapp.service.WorkoutSessionService;
 import com.example.fitnessapp.dto.WorkoutSessionDTO;
 import org.springframework.http.ResponseEntity;
+import com.example.fitnessapp.security.SecurityUtils;
 
 import java.util.List;
 
@@ -19,7 +20,8 @@ public class WorkoutSessionController {
 
     @PostMapping
     public ResponseEntity<WorkoutSessionDTO> logSession(@RequestBody WorkoutSessionDTO dto) {
-        return ResponseEntity.ok(sessionService.logWorkoutSession(dto));
+        String userEmail = SecurityUtils.getCurrentUserEmail();
+        return ResponseEntity.ok(sessionService.logWorkoutSession(dto, userEmail));
     }
 
     @GetMapping("/{id}")
@@ -27,9 +29,10 @@ public class WorkoutSessionController {
         return ResponseEntity.ok(sessionService.getSessionById(id));
     }
 
-    @GetMapping("/user/{userId}/history")
-    public ResponseEntity<List<WorkoutSessionDTO>> getUserHistory(@PathVariable Long userId) {
-        return ResponseEntity.ok(sessionService.getUserHistory(userId));
+    @GetMapping("/me/history")
+    public ResponseEntity<List<WorkoutSessionDTO>> getMyHistory() {
+        String userEmail = SecurityUtils.getCurrentUserEmail();
+        return ResponseEntity.ok(sessionService.getMyHistory(userEmail));
     }
 
 }

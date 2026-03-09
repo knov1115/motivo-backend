@@ -30,8 +30,8 @@ public class WorkoutSessionService {
     }
 
     @Transactional
-    public WorkoutSessionDTO logWorkoutSession(WorkoutSessionDTO dto) {
-        User user = userRepository.findById(dto.getUserId())
+    public WorkoutSessionDTO logWorkoutSession(WorkoutSessionDTO dto, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         WorkoutSession session = new WorkoutSession();
@@ -107,6 +107,15 @@ public class WorkoutSessionService {
 
     public List<WorkoutSessionDTO> getUserHistory(Long userId) {
         return sessionRepository.findByUserIdOrderByDateDesc(userId)
+                .stream()
+                .map(session -> getSessionById(session.getId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<WorkoutSessionDTO> getMyHistory(String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return sessionRepository.findByUserIdOrderByDateDesc(user.getId())
                 .stream()
                 .map(session -> getSessionById(session.getId()))
                 .collect(Collectors.toList());

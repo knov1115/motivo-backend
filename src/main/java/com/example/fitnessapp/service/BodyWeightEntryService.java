@@ -21,8 +21,8 @@ public class BodyWeightEntryService {
         this.userRepository = userRepository;
     }
 
-    public BodyWeightEntryDTO logWeight(BodyWeightEntryDTO dto) {
-        User user = userRepository.findById(dto.getUserId())
+    public BodyWeightEntryDTO logWeight(BodyWeightEntryDTO dto, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
             BodyWeightEntry entry = new BodyWeightEntry();
             entry.setUser(user);
@@ -35,8 +35,10 @@ public class BodyWeightEntryService {
         }
 
 
-    public List<BodyWeightEntryDTO> getWeightHistory(Long userId) {
-        return bodyWeightRepository.findByUserIdOrderByDateDesc(userId)
+    public List<BodyWeightEntryDTO> getMyWeightHistory(String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return bodyWeightRepository.findByUserIdOrderByDateDesc(user.getId())
                 .stream()
                 .map(entry -> {
                     BodyWeightEntryDTO dto = new BodyWeightEntryDTO();

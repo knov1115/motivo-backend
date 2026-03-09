@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.fitnessapp.service.WorkoutRoutineService;
 import com.example.fitnessapp.dto.WorkoutRoutineDTO;
 import org.springframework.http.ResponseEntity;
+import com.example.fitnessapp.security.SecurityUtils;
 
 import java.util.List;
 
@@ -19,7 +20,8 @@ public class WorkoutRoutineController {
 
     @PostMapping
     public ResponseEntity<WorkoutRoutineDTO> createRoutine(@RequestBody WorkoutRoutineDTO dto) {
-        return ResponseEntity.ok(routineService.createRoutine(dto));
+        String userEmail = SecurityUtils.getCurrentUserEmail();
+        return ResponseEntity.ok(routineService.createRoutine(dto, userEmail));
     }
 
     @GetMapping("/{id}")
@@ -27,9 +29,10 @@ public class WorkoutRoutineController {
         return ResponseEntity.ok(routineService.getRoutineById(id));
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<WorkoutRoutineDTO>> getUserRoutines(@PathVariable Long userId) {
-        return ResponseEntity.ok(routineService.getRoutinesByUser(userId));
+    @GetMapping("/me")
+    public ResponseEntity<List<WorkoutRoutineDTO>> getMyRoutines() {
+        String userEmail = SecurityUtils.getCurrentUserEmail();
+        return ResponseEntity.ok(routineService.getMyRoutines(userEmail));
     }
-    
+
 }

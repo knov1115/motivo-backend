@@ -1,6 +1,7 @@
 package com.example.fitnessapp.controllers;
 
 import com.example.fitnessapp.dto.PlannedWorkoutDTO;
+import com.example.fitnessapp.security.SecurityUtils;
 import com.example.fitnessapp.service.PlannedWorkoutService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +23,21 @@ public class PlannedWorkoutController {
 
     @PostMapping
     public ResponseEntity<PlannedWorkoutDTO> scheduleWorkout(@RequestBody PlannedWorkoutDTO dto) {
-        return ResponseEntity.ok(plannedWorkoutService.scheduleWorkout(dto));
+        String userEmail = SecurityUtils.getCurrentUserEmail();
+        return ResponseEntity.ok(plannedWorkoutService.scheduleWorkout(dto, userEmail));
     }
 
 
-    @GetMapping("/user/{userId}/calendar")
-    public ResponseEntity<List<PlannedWorkoutDTO>> getCalendarView(
-            @PathVariable Long userId,
+    @GetMapping("/me/calendar")
+    public ResponseEntity<List<PlannedWorkoutDTO>> getMyCalendar(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        return ResponseEntity.ok(plannedWorkoutService.getCalendarView(userId, startDate, endDate));
+        String userEmail = SecurityUtils.getCurrentUserEmail();
+        return ResponseEntity.ok(plannedWorkoutService.getMyCalendarView(userEmail, startDate, endDate));
     }
+        
+        
+    
 
 
     @GetMapping("/user/{userId}/today")

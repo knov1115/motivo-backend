@@ -27,8 +27,8 @@ public class PlannedWorkoutService {
     }
 
 
-    public PlannedWorkoutDTO scheduleWorkout(PlannedWorkoutDTO dto) {
-        User user = userRepository.findById(dto.getUserId())
+    public PlannedWorkoutDTO scheduleWorkout(PlannedWorkoutDTO dto, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         WorkoutRoutine routine = routineRepository.findById(dto.getRoutineId())
                 .orElseThrow(() -> new RuntimeException("Routine not found"));
@@ -46,6 +46,16 @@ public class PlannedWorkoutService {
 
     public List<PlannedWorkoutDTO> getCalendarView(Long userId, LocalDate startDate, LocalDate endDate) {
         return plannedWorkoutRepository.findByUserIdAndDateBetween(userId, startDate, endDate)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    public List<PlannedWorkoutDTO> getMyCalendarView(String userEmail, LocalDate startDate, LocalDate endDate){
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return plannedWorkoutRepository.findByUserIdAndDateBetween(user.getId(), startDate, endDate)
                 .stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
