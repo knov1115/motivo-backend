@@ -60,6 +60,52 @@ public class WorkoutRoutineService {
         return getRoutineById(savedRoutine.getId());
     }
 
+    @Transactional
+    public WorkoutRoutineDTO updateRoutine(Long routineId, WorkoutRoutineDTO dto, String userEmail) {
+        WorkoutRoutine routine = routineRepository.findById(routineId)
+                .orElseThrow(() -> new RuntimeException("Routine not found"));
+
+        if (!routine.getUser().getEmail().equals(userEmail)) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        routine.setName(dto.getName());
+        WorkoutRoutine savedRoutine = routineRepository.save(routine); 
+
+        List<RoutineExercise> oldExercises = routineExerciseRepository.findByRoutineIdOrderByOrderIndexAsc(routineId);
+        routineExerciseRepository.deleteAll(oldExercises);
+        routineExerciseRepository.flush();
+
+        if (dto.getExercises() != null) {
+            for (RoutineExercisesDTO exDto: dto.getExercises()) {
+                Exercise exercise = exerciseRepository.findById(exDto.getExerciseId())
+                        .orElseThrow(() -> new RuntimeException("Exercise not found"));
+
+                RoutineExercise routineExercise = new RoutineExercise();
+                routineExercise.setRoutine(savedRoutine);
+                routineExercise.setExercise(exercise);
+                routineExercise.setOrderIndex(exDto.getOrderIndex());
+                routineExercise.setDefaultSets(exDto.getDefaultSets());
+
+                routineExerciseRepository.save(routineExercise);
+            }
+        }
+        return getRoutineById(savedRoutine.getId());
+    }
+
+    @Transactional
+    public void deleteRoutine(Long routineId, String userEmail) {
+        WorkoutRoutine routine = routineRepository.findById(routineId)
+                .orElseThrow(() -> new RuntimeException("Routine not found"));
+
+        if (!routine.getUser().getEmail().equals(userEmail)) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        List<RoutineExercise> oldExercises = routineExerciseRepository.findByRoutineIdOrderByOrderIndexAsc(routineId);
+        routineExerciseRepository.deleteAll(oldExercises);
+        routineRepository.delete(routine);
+    }
 
     public WorkoutRoutineDTO getRoutineById(Long routineId) {
         WorkoutRoutine routine = routineRepository.findById(routineId)

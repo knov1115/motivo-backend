@@ -24,6 +24,19 @@ public class WorkoutRoutineController {
         return ResponseEntity.ok(routineService.createRoutine(dto, userEmail));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<WorkoutRoutineDTO> updateRoutine(@PathVariable Long id, @RequestBody WorkoutRoutineDTO dto) {
+        String userEmail = SecurityUtils.getCurrentUserEmail();
+        return ResponseEntity.ok(routineService.updateRoutine(id, dto, userEmail));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRoutine(@PathVariable Long id) {
+        String userEmail = SecurityUtils.getCurrentUserEmail();
+        routineService.deleteRoutine(id, userEmail);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<WorkoutRoutineDTO> getRoutine(@PathVariable Long id) {
         return ResponseEntity.ok(routineService.getRoutineById(id));

@@ -44,6 +44,18 @@ public class PlannedWorkoutService {
     }
 
 
+    public void deletePlannedWorkout(Long id, String userEmail) {
+        PlannedWorkout plan = plannedWorkoutRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Planned workout not found"));
+        
+        if (!plan.getUser().getEmail().equals(userEmail)) {
+            throw new RuntimeException("Unauthorized to delete this planned workout");
+        }
+
+        plannedWorkoutRepository.delete(plan);
+    }
+
+
     public List<PlannedWorkoutDTO> getCalendarView(Long userId, LocalDate startDate, LocalDate endDate) {
         return plannedWorkoutRepository.findByUserIdAndDateBetween(userId, startDate, endDate)
                 .stream()

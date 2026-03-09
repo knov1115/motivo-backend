@@ -28,6 +28,14 @@ public class PlannedWorkoutController {
     }
 
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePlannedWorkout(@PathVariable Long id) {
+        String userEmail = SecurityUtils.getCurrentUserEmail();
+        plannedWorkoutService.deletePlannedWorkout(id, userEmail);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @GetMapping("/me/calendar")
     public ResponseEntity<List<PlannedWorkoutDTO>> getMyCalendar(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
