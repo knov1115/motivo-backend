@@ -3,7 +3,6 @@ package com.example.fitnessapp.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-import org.hibernate.boot.registry.classloading.spi.ClassLoaderService.Work;
 
 import java.time.LocalDate;
 

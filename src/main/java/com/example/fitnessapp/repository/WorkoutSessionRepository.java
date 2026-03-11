@@ -16,4 +16,8 @@ public interface WorkoutSessionRepository extends JpaRepository<WorkoutSession, 
     // Get all workout sessions for a user on a specific date (for the "Your workouts for today" screen)
     List<WorkoutSession> findByUserIdAndDate(Long userId, LocalDate date);
 
+    List<WorkoutSession> findByRoutineId(Long routineId);
+
+    List<WorkoutSession> findByPlannedWorkoutIdIn(List<Long> plannedWorkoutIds);
+
 }

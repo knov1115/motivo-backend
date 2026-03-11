@@ -6,6 +6,7 @@ import com.example.fitnessapp.entity.RoutineExercise;
 
 import java.util.List;
 
+@Repository
 public interface RoutineExerciseRepository extends JpaRepository<RoutineExercise, Long> {
     
     // Get all exercises for a routine, automatically sorted by order_index

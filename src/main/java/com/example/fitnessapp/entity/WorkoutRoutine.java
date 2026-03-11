@@ -2,6 +2,8 @@ package com.example.fitnessapp.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "workout_routines")
@@ -28,6 +30,12 @@ public class WorkoutRoutine {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoutineExercise> routineExercises = new ArrayList<>();
+
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlannedWorkout> plannedWorkouts = new ArrayList<>();
+
 
 
      // Getters and Setters
@@ -43,5 +51,9 @@ public class WorkoutRoutine {
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public List<RoutineExercise> getRoutineExercises() { return routineExercises; }
+    public void setRoutineExercises(List<RoutineExercise> routineExercises) { this.routineExercises = routineExercises; }
+    public List<PlannedWorkout> getPlannedWorkouts() { return plannedWorkouts; }
+    public void setPlannedWorkouts(List<PlannedWorkout> plannedWorkouts) { this.plannedWorkouts = plannedWorkouts; }
 
 }

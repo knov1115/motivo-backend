@@ -17,4 +17,6 @@ public interface PlannedWorkoutRepository extends JpaRepository<PlannedWorkout, 
     // Get the whole month's plan (for the Calendar view)
     List<PlannedWorkout> findByUserIdAndDateBetween(Long userId, LocalDate startDate, LocalDate endDate);
 
+    List<PlannedWorkout> findByRoutineId(Long routineId);
+
 }
