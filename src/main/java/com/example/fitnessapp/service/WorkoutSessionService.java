@@ -99,6 +99,8 @@ public class WorkoutSessionService {
             setDto.setWeight(set.getWeight());
             setDto.setReps(set.getReps());
             setDto.setDurationSeconds(set.getDurationSeconds());
+            setDto.setPrimaryMuscleGroup(set.getExercise().getPrimaryMuscleGroup());
+
             return setDto;
         }).collect(Collectors.toList());
 
@@ -158,6 +160,8 @@ public class WorkoutSessionService {
             setDto.setWeight(set.getWeight());
             setDto.setReps(set.getReps());
             setDto.setDurationSeconds(set.getDurationSeconds());
+            setDto.setPrimaryMuscleGroup(set.getExercise().getPrimaryMuscleGroup());
+            
             return setDto;
         }).collect(Collectors.toList());
 

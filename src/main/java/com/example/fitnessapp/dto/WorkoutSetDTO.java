@@ -11,6 +11,7 @@ public class WorkoutSetDTO {
     private BigDecimal weight;
     private Integer reps;
     private Double durationSeconds;
+    private String primaryMuscleGroup;
 
 
 
@@ -31,4 +32,6 @@ public class WorkoutSetDTO {
     public void setReps(Integer reps) { this.reps = reps; }
     public Double getDurationSeconds() { return durationSeconds; }
     public void setDurationSeconds(Double durationSeconds) { this.durationSeconds = durationSeconds; }
+    public String getPrimaryMuscleGroup() { return primaryMuscleGroup; }
+    public void setPrimaryMuscleGroup(String primaryMuscleGroup) { this.primaryMuscleGroup = primaryMuscleGroup; }
 }

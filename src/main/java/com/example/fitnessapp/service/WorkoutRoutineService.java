@@ -142,6 +142,7 @@ public class WorkoutRoutineService {
             exDto.setExerciseName(ex.getExercise().getName());
             exDto.setOrderIndex(ex.getOrderIndex());
             exDto.setDefaultSets(ex.getDefaultSets());
+            exDto.setPrimaryMuscleGroup(ex.getExercise().getPrimaryMuscleGroup());
             return exDto;
         }).collect(Collectors.toList());
 

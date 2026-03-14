@@ -8,6 +8,7 @@ public class RoutineExercisesDTO {
     private String exerciseName;
     private Integer orderIndex;
     private Integer defaultSets;
+    private String primaryMuscleGroup;
 
 
     // Getters and Setters
@@ -19,5 +20,7 @@ public class RoutineExercisesDTO {
     public void setOrderIndex(Integer orderIndex) { this.orderIndex = orderIndex; }
     public Integer getDefaultSets() { return defaultSets; }
     public void setDefaultSets(Integer defaultSets) { this.defaultSets = defaultSets; }
+    public String getPrimaryMuscleGroup() { return primaryMuscleGroup; }
+    public void setPrimaryMuscleGroup(String primaryMuscleGroup) { this.primaryMuscleGroup = primaryMuscleGroup; }
 
 }
