@@ -1,5 +1,6 @@
 package com.example.fitnessapp.service;
 
+import com.example.fitnessapp.dto.ExerciseSessionHistoryDTO;
 import com.example.fitnessapp.dto.WorkoutSessionDTO;
 import com.example.fitnessapp.dto.WorkoutSetDTO;
 import com.example.fitnessapp.entity.*;
@@ -113,11 +114,55 @@ public class WorkoutSessionService {
     }
 
     public List<WorkoutSessionDTO> getMyHistory(String userEmail) {
+
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return sessionRepository.findByUserIdOrderByDateDesc(user.getId())
                 .stream()
                 .map(session -> getSessionById(session.getId()))
                 .collect(Collectors.toList());
+    }
+
+    public ExerciseSessionHistoryDTO getLatestExerciseHistory(Long exerciseId, String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Long latestSessionId = setRepository.findLatestSessionIdForExerciseAndUser(exerciseId, user.getId())
+                .orElse(null);
+
+        if (latestSessionId == null) {
+            return null; // No history for this exercise
+        }
+
+        WorkoutSession session = sessionRepository.findById(latestSessionId)
+                .orElseThrow(() -> new RuntimeException("Workout session not found"));
+
+        List<WorkoutSet> previousSets = setRepository.findByWorkoutSessionIdAndExerciseIdOrderBySetIndexAsc(latestSessionId, exerciseId);
+
+        if (previousSets.isEmpty()) {
+            return null; // No sets found for this exercise in the session
+        }
+
+        ExerciseSessionHistoryDTO historyDTO = new ExerciseSessionHistoryDTO();
+        historyDTO.setExerciseId(exerciseId);
+        historyDTO.setExerciseName(previousSets.get(0).getExercise().getName());
+        historyDTO.setPreviousWorkoutDate(session.getDate());
+
+        List<WorkoutSetDTO> setDtos = previousSets.stream().map(set -> {
+            WorkoutSetDTO setDto = new WorkoutSetDTO();
+            setDto.setId(set.getId());
+            setDto.setExerciseId(set.getExercise().getId());
+            setDto.setExerciseName(set.getExercise().getName());
+            setDto.setTag(set.getTag());
+            setDto.setSetIndex(set.getSetIndex());
+            setDto.setWeight(set.getWeight());
+            setDto.setReps(set.getReps());
+            setDto.setDurationSeconds(set.getDurationSeconds());
+            return setDto;
+        }).collect(Collectors.toList());
+
+        historyDTO.setSets(setDtos);
+        return historyDTO;
+
     }
 }

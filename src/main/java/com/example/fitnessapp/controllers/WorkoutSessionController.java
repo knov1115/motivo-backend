@@ -5,6 +5,7 @@ import com.example.fitnessapp.service.WorkoutSessionService;
 import com.example.fitnessapp.dto.WorkoutSessionDTO;
 import org.springframework.http.ResponseEntity;
 import com.example.fitnessapp.security.SecurityUtils;
+import com.example.fitnessapp.dto.ExerciseSessionHistoryDTO;
 
 import java.util.List;
 
@@ -33,6 +34,18 @@ public class WorkoutSessionController {
     public ResponseEntity<List<WorkoutSessionDTO>> getMyHistory() {
         String userEmail = SecurityUtils.getCurrentUserEmail();
         return ResponseEntity.ok(sessionService.getMyHistory(userEmail));
+    }
+
+    @GetMapping("/me/history/exercise/{exerciseId}/latest")
+    public ResponseEntity<ExerciseSessionHistoryDTO> getLatestExerciseHistory(@PathVariable Long exerciseId) {
+        String userEmail = SecurityUtils.getCurrentUserEmail();
+        ExerciseSessionHistoryDTO history = sessionService.getLatestExerciseHistory(exerciseId, userEmail);
+
+        if (history == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(history);
+        }
     }
 
 }
