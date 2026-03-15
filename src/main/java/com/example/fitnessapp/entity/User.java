@@ -33,6 +33,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String passwordHash;
 
+    @Column(name = "bio", length = 500)
+    private String bio;
+
+    @Column(name = "profile_picture_url", length = 1000)
+    private String profilePictureUrl;
+
     // Getters and Setters
 
     public Long getId() {
@@ -65,6 +71,22 @@ public class User implements UserDetails {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
+
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
     }
 
     @Override
