@@ -39,6 +39,12 @@ public class User implements UserDetails {
     @Column(name = "profile_picture_url", length = 1000)
     private String profilePictureUrl;
 
+    @Column(name = "gender_preference", length = 10)
+    private String genderPreference = "male";
+
+
+
+
     // Getters and Setters
 
     public Long getId() {
@@ -88,6 +94,10 @@ public class User implements UserDetails {
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
     }
+
+    public String getGenderPreference() { return genderPreference; }
+    
+    public void setGenderPreference(String genderPreference) { this.genderPreference = genderPreference; }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

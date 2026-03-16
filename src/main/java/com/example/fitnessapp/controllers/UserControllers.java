@@ -37,7 +37,8 @@ public class UserControllers {
                     UserProfileDTO dto = new UserProfileDTO(
                         user.getActualUsername(),
                         user.getBio(),
-                        user.getProfilePictureUrl()
+                        user.getProfilePictureUrl(),
+                        user.getGenderPreference()
                     );
                     return ResponseEntity.ok(dto);
                 })
@@ -58,6 +59,7 @@ public class UserControllers {
                     user.setUsername(dto.getUsername());
                     user.setBio(dto.getBio());
                     user.setProfilePictureUrl(dto.getProfilePictureUrl());
+                    user.setGenderPreference(dto.getGenderPreference());
                     userRepository.save(user);
                     return ResponseEntity.ok("Profile updated successfully");
                 })

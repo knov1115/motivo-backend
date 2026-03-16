@@ -7,14 +7,16 @@ public class UserProfileDTO {
     private String username;
     private String bio;
     private String profilePictureUrl;
+    private String genderPreference;
 
     public UserProfileDTO() {
     }
 
-    public UserProfileDTO(String username, String bio, String profilePictureUrl) {
+    public UserProfileDTO(String username, String bio, String profilePictureUrl, String genderPreference) {
         this.username = username;
         this.bio = bio;
         this.profilePictureUrl = profilePictureUrl;
+        this.genderPreference = genderPreference;
     }
 
 
@@ -41,5 +43,13 @@ public class UserProfileDTO {
 
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public String getGenderPreference() {
+        return genderPreference;
+    }
+
+    public void setGenderPreference(String genderPreference) {
+        this.genderPreference = genderPreference;
     }
 }
