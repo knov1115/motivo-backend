@@ -10,17 +10,21 @@ import com.example.fitnessapp.repository.UserRepository;
 import com.example.fitnessapp.dto.UserProfileDTO;
 import com.example.fitnessapp.entity.User;
 import org.springframework.web.bind.annotation.*;
+import com.example.fitnessapp.dto.UserTrophyDTO;
+import com.example.fitnessapp.service.TrophyService;
 
-
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserControllers {
 
     private final UserRepository userRepository;
+    private final TrophyService trophyService;
 
-    public UserControllers(UserRepository userRepository) {
+    public UserControllers(UserRepository userRepository, TrophyService trophyService) {
         this.userRepository = userRepository;
+        this.trophyService = trophyService;
     }
 
     
@@ -44,6 +48,21 @@ public class UserControllers {
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
+
+
+    @GetMapping("/me/trophies")
+    public ResponseEntity<List<UserTrophyDTO>> getMyTrophies(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).build();
+        }
+
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        List<UserTrophyDTO> trophies = trophyService.getUserTrophiesAsDTO(user.getId());
+
+        return ResponseEntity.ok(trophies);
+    } 
 
 
     @PutMapping("/me")

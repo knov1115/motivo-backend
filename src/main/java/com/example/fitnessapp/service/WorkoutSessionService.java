@@ -21,13 +21,15 @@ public class WorkoutSessionService {
     private final UserRepository userRepository;
     private final WorkoutRoutineRepository routineRepository;
     private final ExerciseRepository exerciseRepository;
+    private final TrophyService trophyService;
 
-    public WorkoutSessionService(WorkoutSessionRepository sessionRepository, WorkoutSetRepository setRepository, UserRepository userRepository, WorkoutRoutineRepository routineRepository, ExerciseRepository exerciseRepository) {
+    public WorkoutSessionService(WorkoutSessionRepository sessionRepository, WorkoutSetRepository setRepository, UserRepository userRepository, WorkoutRoutineRepository routineRepository, ExerciseRepository exerciseRepository, TrophyService trophyService) {
         this.sessionRepository = sessionRepository;
         this.setRepository = setRepository;
         this.userRepository = userRepository;
         this.routineRepository = routineRepository;
         this.exerciseRepository = exerciseRepository;
+        this.trophyService = trophyService;
     }
 
     @Transactional
@@ -67,7 +69,11 @@ public class WorkoutSessionService {
             }
         }
 
-        return getSessionById(savedSession.getId());
+
+        WorkoutSessionDTO completedDto = getSessionById(savedSession.getId());
+        trophyService.evaluateWorkoutTrophies(user, completedDto);
+
+        return completedDto;
 
 
 
