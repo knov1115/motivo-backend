@@ -124,7 +124,7 @@ public class TrophyService {
         dto.setCurrentValue(ut.getCurrentValue());
         dto.setUnlocked(ut.isUnlocked());
         dto.setUnlockedAt(ut.getUnlockedAt());
-        dto.setIconSvg(ut.getTrophy().getIconSvg());
+        dto.setIconFileName(ut.getTrophy().getIconFileName());
         return dto;
     }).collect(Collectors.toList());
 }

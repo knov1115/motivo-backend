@@ -13,7 +13,7 @@ public class UserTrophyDTO {
     private Double targetValue;
     private boolean isUnlocked;
     private LocalDateTime unlockedAt;
-    private String iconSvg;
+    private String iconFileName;
 
 
     public UserTrophyDTO() {}
@@ -33,11 +33,11 @@ public class UserTrophyDTO {
     public MetricType getMetricType() { return metricType; }
     public void setMetricType(MetricType metricType) { this.metricType = metricType; }
 
-    public double getTargetValue() { return targetValue; }
-    public void setTargetValue(double targetValue) { this.targetValue = targetValue; }
+    public Double getTargetValue() { return targetValue; }
+    public void setTargetValue(Double targetValue) { this.targetValue = targetValue; }
 
-    public double getCurrentValue() { return currentValue; }
-    public void setCurrentValue(double currentValue) { this.currentValue = currentValue; }
+    public Double getCurrentValue() { return currentValue; }
+    public void setCurrentValue(Double currentValue) { this.currentValue = currentValue; }
 
     public boolean isUnlocked() { return isUnlocked; }
     public void setUnlocked(boolean unlocked) { this.isUnlocked = unlocked; }
@@ -45,7 +45,7 @@ public class UserTrophyDTO {
     public LocalDateTime getUnlockedAt() { return unlockedAt; }
     public void setUnlockedAt(LocalDateTime unlockedAt) { this.unlockedAt = unlockedAt; }
 
-    public String getIconSvg() { return iconSvg; }
-    public void setIconSvg(String iconSvg) { this.iconSvg = iconSvg; }
+    public String getIconFileName() { return iconFileName; }
+    public void setIconFileName(String iconFileName) { this.iconFileName = iconFileName; }
 
 }

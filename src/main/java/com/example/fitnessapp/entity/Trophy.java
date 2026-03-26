@@ -26,8 +26,8 @@ public class Trophy {
     @Column(name = "target_value", nullable = false)
     private Double targetValue;
 
-    @Column(name = "icon_svg", columnDefinition = "TEXT")
-    private String iconSvg;
+    @Column(name = "icon_filename", columnDefinition = "TEXT")
+    private String iconFileName;
 
     
 
@@ -48,7 +48,7 @@ public class Trophy {
     public Double getTargetValue() { return targetValue; }
     public void setTargetValue(Double targetValue) { this.targetValue = targetValue; }
 
-    public String getIconSvg() { return iconSvg; }
-    public void setIconSvg(String iconSvg) { this.iconSvg = iconSvg; }
+    public String getIconFileName() { return iconFileName; }
+    public void setIconFileName(String iconFileName) { this.iconFileName = iconFileName; }
 
 }
