@@ -24,12 +24,19 @@ public class BodyWeightEntryService {
     public BodyWeightEntryDTO logWeight(BodyWeightEntryDTO dto, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-            BodyWeightEntry entry = new BodyWeightEntry();
+
+            BodyWeightEntry entry = bodyWeightRepository.findByUserIdAndDate(user.getId(), dto.getDate())
+                .orElse(new BodyWeightEntry());
+                
             entry.setUser(user);
             entry.setDate(dto.getDate());
             entry.setWeight(dto.getWeight());
 
             BodyWeightEntry savedEntry = bodyWeightRepository.save(entry);
+
+            user.setCurrentWeight(dto.getWeight());
+            userRepository.save(user);
+
             dto.setId(savedEntry.getId());
             return dto;
         }

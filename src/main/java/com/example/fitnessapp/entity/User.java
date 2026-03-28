@@ -2,6 +2,7 @@ package com.example.fitnessapp.entity;
 
 import java.util.List;
 import java.util.Collection;
+import java.math.BigDecimal;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -41,6 +42,12 @@ public class User implements UserDetails {
 
     @Column(name = "gender_preference", length = 10)
     private String genderPreference = "male";
+
+    @Column(name = "current_weight", precision = 5, scale = 2)
+    private BigDecimal currentWeight;
+
+    @Column(name = "target_weight", precision = 5, scale = 2)
+    private BigDecimal targetWeight;
 
 
 
@@ -98,6 +105,25 @@ public class User implements UserDetails {
     public String getGenderPreference() { return genderPreference; }
     
     public void setGenderPreference(String genderPreference) { this.genderPreference = genderPreference; }
+
+
+    public BigDecimal getCurrentWeight() {
+        return currentWeight;
+    }
+
+    public void setCurrentWeight(BigDecimal currentWeight) {
+        this.currentWeight = currentWeight;
+    }
+
+    public BigDecimal getTargetWeight() {
+        return targetWeight;
+    }
+
+    public void setTargetWeight(BigDecimal targetWeight) {
+        this.targetWeight = targetWeight;
+    }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

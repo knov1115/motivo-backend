@@ -1,6 +1,7 @@
 package com.example.fitnessapp.dto;
 
 import com.example.fitnessapp.entity.User;
+import java.math.BigDecimal;
 
 public class UserProfileDTO {
     
@@ -8,15 +9,19 @@ public class UserProfileDTO {
     private String bio;
     private String profilePictureUrl;
     private String genderPreference;
+    private BigDecimal currentWeight;
+    private BigDecimal targetWeight;
 
     public UserProfileDTO() {
     }
 
-    public UserProfileDTO(String username, String bio, String profilePictureUrl, String genderPreference) {
+    public UserProfileDTO(String username, String bio, String profilePictureUrl, String genderPreference, BigDecimal currentWeight, BigDecimal targetWeight) {
         this.username = username;
         this.bio = bio;
         this.profilePictureUrl = profilePictureUrl;
         this.genderPreference = genderPreference;
+        this.currentWeight = currentWeight;
+        this.targetWeight = targetWeight;
     }
 
 
@@ -52,4 +57,10 @@ public class UserProfileDTO {
     public void setGenderPreference(String genderPreference) {
         this.genderPreference = genderPreference;
     }
+
+    public BigDecimal getCurrentWeight() { return currentWeight; }
+    public void setCurrentWeight(BigDecimal currentWeight) { this.currentWeight = currentWeight; }
+    
+    public BigDecimal getTargetWeight() { return targetWeight; }
+    public void setTargetWeight(BigDecimal targetWeight) { this.targetWeight = targetWeight; }
 }

@@ -42,7 +42,9 @@ public class UserControllers {
                         user.getActualUsername(),
                         user.getBio(),
                         user.getProfilePictureUrl(),
-                        user.getGenderPreference()
+                        user.getGenderPreference(),
+                        user.getCurrentWeight(),
+                        user.getTargetWeight()
                     );
                     return ResponseEntity.ok(dto);
                 })
@@ -79,6 +81,13 @@ public class UserControllers {
                     user.setBio(dto.getBio());
                     user.setProfilePictureUrl(dto.getProfilePictureUrl());
                     user.setGenderPreference(dto.getGenderPreference());
+                    user.setCurrentWeight(dto.getCurrentWeight());
+                    user.setTargetWeight(dto.getTargetWeight());
+
+                    if (dto.getTargetWeight() != null) {
+                        user.setTargetWeight(dto.getTargetWeight());
+                    }
+
                     userRepository.save(user);
                     return ResponseEntity.ok("Profile updated successfully");
                 })
