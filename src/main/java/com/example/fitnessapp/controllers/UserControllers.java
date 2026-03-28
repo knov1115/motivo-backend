@@ -44,7 +44,9 @@ public class UserControllers {
                         user.getProfilePictureUrl(),
                         user.getGenderPreference(),
                         user.getCurrentWeight(),
-                        user.getTargetWeight()
+                        user.getTargetWeight(),
+                        user.getLevel(),
+                        user.getCurrentExp()
                     );
                     return ResponseEntity.ok(dto);
                 })

@@ -11,17 +11,21 @@ public class UserProfileDTO {
     private String genderPreference;
     private BigDecimal currentWeight;
     private BigDecimal targetWeight;
+    private Integer level;
+    private Integer currentExp;
 
     public UserProfileDTO() {
     }
 
-    public UserProfileDTO(String username, String bio, String profilePictureUrl, String genderPreference, BigDecimal currentWeight, BigDecimal targetWeight) {
+    public UserProfileDTO(String username, String bio, String profilePictureUrl, String genderPreference, BigDecimal currentWeight, BigDecimal targetWeight, Integer level, Integer currentExp) {
         this.username = username;
         this.bio = bio;
         this.profilePictureUrl = profilePictureUrl;
         this.genderPreference = genderPreference;
         this.currentWeight = currentWeight;
         this.targetWeight = targetWeight;
+        this.level = level;
+        this.currentExp = currentExp;
     }
 
 
@@ -63,4 +67,20 @@ public class UserProfileDTO {
     
     public BigDecimal getTargetWeight() { return targetWeight; }
     public void setTargetWeight(BigDecimal targetWeight) { this.targetWeight = targetWeight; }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Integer getCurrentExp() {
+        return currentExp;
+    }
+
+    public void setCurrentExp(Integer currentExp) {
+        this.currentExp = currentExp;
+    }
 }

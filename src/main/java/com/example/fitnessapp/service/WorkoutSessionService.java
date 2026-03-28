@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.math.BigDecimal;
 
 
 @Service
@@ -51,6 +52,8 @@ public class WorkoutSessionService {
 
         WorkoutSession savedSession = sessionRepository.save(session);
 
+        
+
         if(dto.getSets() != null) {
             for (WorkoutSetDTO setDto : dto.getSets()) {
                 Exercise exercise = exerciseRepository.findById(setDto.getExerciseId())
@@ -72,6 +75,38 @@ public class WorkoutSessionService {
 
         WorkoutSessionDTO completedDto = getSessionById(savedSession.getId());
         trophyService.evaluateWorkoutTrophies(user, completedDto);
+
+        // --- LEVEL UP LOGIC ---
+        // Formula: 100 Base + (Duration * 5) + (Volume / 100)
+        double totalVolume = 0.0;
+        if (completedDto.getSets() != null) {
+            for (WorkoutSetDTO set : completedDto.getSets()) {
+                if (set.getWeight() != null && set.getReps() != null) {
+                    totalVolume += (set.getWeight().doubleValue() * set.getReps());
+                }
+            }
+        }
+
+        int durationBonus = (dto.getDurationMinutes() != null ? dto.getDurationMinutes() : 0) * 5;
+        int volumeBonus = (int) (totalVolume / 100); 
+        int earnedExp = 100 + durationBonus + volumeBonus;
+
+        int currentExp = user.getCurrentExp() + earnedExp;
+        int currentLevel = user.getLevel();
+
+        while (currentLevel < 100) {
+            int requiredExpForNextLevel = calculateRequiredExp(currentLevel);
+            if (currentExp >= requiredExpForNextLevel) {
+                currentLevel++;
+                currentExp -= requiredExpForNextLevel;
+            } else {
+                break;
+            }
+        }
+
+        user.setLevel(currentLevel);
+        user.setCurrentExp(currentExp);
+        userRepository.save(user);
 
         return completedDto;
 
@@ -132,6 +167,8 @@ public class WorkoutSessionService {
     }
 
     public ExerciseSessionHistoryDTO getLatestExerciseHistory(Long exerciseId, String userEmail) {
+
+
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -175,4 +212,9 @@ public class WorkoutSessionService {
         return historyDTO;
 
     }
+
+    private int calculateRequiredExp(int currentLevel) {
+        return (int) (1000 * Math.pow(currentLevel, 1.2));
+    }
+
 }

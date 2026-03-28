@@ -49,6 +49,12 @@ public class User implements UserDetails {
     @Column(name = "target_weight", precision = 5, scale = 2)
     private BigDecimal targetWeight;
 
+    @Column(name = "level", nullable = false, columnDefinition = "integer not null default 1")
+    private Integer level = 1;
+
+    @Column(name = "current_exp", nullable = false, columnDefinition = "integer not null default 0")
+    private Integer currentExp = 0;
+
 
 
 
@@ -121,6 +127,22 @@ public class User implements UserDetails {
 
     public void setTargetWeight(BigDecimal targetWeight) {
         this.targetWeight = targetWeight;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Integer getCurrentExp() {
+        return currentExp;
+    }
+
+    public void setCurrentExp(Integer currentExp) {
+        this.currentExp = currentExp;
     }
 
 
