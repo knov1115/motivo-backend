@@ -2,10 +2,7 @@ package com.example.fitnessapp.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 import com.example.fitnessapp.repository.UserRepository;
 import com.example.fitnessapp.dto.UserProfileDTO;
 import com.example.fitnessapp.entity.User;
@@ -79,13 +76,16 @@ public class UserControllers {
 
         return userRepository.findByEmail(email)
                 .map(user -> {
-                    user.setUsername(dto.getUsername());
-                    user.setBio(dto.getBio());
-                    user.setProfilePictureUrl(dto.getProfilePictureUrl());
-                    user.setGenderPreference(dto.getGenderPreference());
-                    user.setCurrentWeight(dto.getCurrentWeight());
-                    user.setTargetWeight(dto.getTargetWeight());
+                    // Only update text fields if they are actually provided
+                    if (dto.getUsername() != null) user.setUsername(dto.getUsername());
+                    if (dto.getBio() != null) user.setBio(dto.getBio());
+                    if (dto.getProfilePictureUrl() != null) user.setProfilePictureUrl(dto.getProfilePictureUrl());
+                    if (dto.getGenderPreference() != null) user.setGenderPreference(dto.getGenderPreference());
 
+                
+                    if (dto.getCurrentWeight() != null) {
+                        user.setCurrentWeight(dto.getCurrentWeight());
+                    }
                     if (dto.getTargetWeight() != null) {
                         user.setTargetWeight(dto.getTargetWeight());
                     }
